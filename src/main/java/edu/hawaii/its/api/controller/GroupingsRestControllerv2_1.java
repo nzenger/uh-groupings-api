@@ -540,19 +540,26 @@ public class GroupingsRestControllerv2_1 {
         logger.info("Entered REST enablePreference");
         List<GroupingsServiceResult> results = new ArrayList<>();
 
-        if (!OPT_IN.equals(preferenceId) && !OPT_OUT.equals(preferenceId)) {
+        if (!OPT_IN.equals(preferenceId) && !OPT_OUT.equals(preferenceId) && !LISTSERV.equals(preferenceId)
+                && !RELEASED_GROUPING.equals(preferenceId)) {
             throw new UnsupportedOperationException();
         } else {
             if (OPT_IN.equals(preferenceId)) {
                 results = groupAttributeService.changeOptInStatus(path, currentUser, true);
             } else if (OPT_OUT.equals(preferenceId)) {
                 results = groupAttributeService.changeOptOutStatus(path, currentUser, true);
+            } else if (LISTSERV.equals(preferenceId)) {
+                results.add(groupAttributeService.changeListservStatus(path, currentUser, true));
+            } else {
+                results.add(groupAttributeService.changeReleasedGroupingStatus(path, currentUser, true));
             }
         }
         return ResponseEntity
                 .ok()
                 .body(results);
     }
+
+
 
     /**
      * Update grouping to disable given preference
