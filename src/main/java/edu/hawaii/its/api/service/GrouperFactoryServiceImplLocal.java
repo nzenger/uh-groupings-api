@@ -216,11 +216,11 @@ public class GrouperFactoryServiceImplLocal implements GrouperFactoryService {
     @Override
     public WsGroupDeleteResults deleteGroup(WsSubjectLookup username, WsGroupLookup path) {
 
-        return new GcGroupDelete()
+        /*return new GcGroupDelete()
                 .addGroupLookup(path)
                 .assignActAsSubject(username)
-                .execute();
-
+                .execute();*/
+        return new WsGroupDeleteResults();
     }
 
     @Override
@@ -233,10 +233,11 @@ public class GrouperFactoryServiceImplLocal implements GrouperFactoryService {
     @Override
     public WsStemDeleteResults deleteStem(WsSubjectLookup admin, WsStemLookup stem) {
 
-        return new GcStemDelete()
+        /*return new GcStemDelete()
                 .addStemLookup(stem)
                 .assignActAsSubject(admin)
-                .execute();
+                .execute();*/
+        return new WsStemDeleteResults();
     }
 
     /**
@@ -1345,7 +1346,7 @@ public class GrouperFactoryServiceImplLocal implements GrouperFactoryService {
     @Override
     public WsGroupSaveResults addCompositeGroup(String username, String parentGroupPath, String compositeType,
             String leftGroupPath, String rightGroupPath) {
-        WsGroupToSave groupToSave = new WsGroupToSave();
+        /*WsGroupToSave groupToSave = new WsGroupToSave();
         WsGroupLookup groupLookup = makeWsGroupLookup(parentGroupPath);
         WsGroup group = new WsGroup();
         WsGroupDetail wsGroupDetail = new WsGroupDetail();
@@ -1367,7 +1368,9 @@ public class GrouperFactoryServiceImplLocal implements GrouperFactoryService {
 
         WsSubjectLookup lookup = makeWsSubjectLookup(username);
 
-        return new GcGroupSave().addGroupToSave(groupToSave).assignActAsSubject(lookup).execute();
+        return new GcGroupSave().addGroupToSave(groupToSave).assignActAsSubject(lookup).execute();*/
+
+        return new WsGroupSaveResults();
     }
 
 }

@@ -1146,7 +1146,7 @@ public class TestGroupingsRestControllerv2_1 {
     }
 
     //todo This tests if recursive calls break pagination, we don't need this at the moment
-    @Ignore
+    //@Ignore
     @Test
     public void paginatedLargeGroupingTest() throws Exception {
         recursionFunctionToTest(GROUPING_TIMEOUT, adminUser, 1, 20, "name", true);

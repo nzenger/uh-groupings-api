@@ -184,16 +184,15 @@ public class GrouperFactoryServiceTest {
         assertTrue(subjectLookup.getSubjectIdentifier().equals("username2"));
     }
 
-    @Ignore
     @Test
-    //These tests are calls to grouper web service functions within grouper and do not work on local test enviornment.
+    //These tests are calls to grouper web service functions within grouper and do not work on local test environment.
     public void deleteGroupTest() {
-        WsSubjectLookup subjectLookup = gfsl.makeWsSubjectLookup(users.get(0).getUsername());
-        WsGroupLookup groupLookup = gfsl.makeWsGroupLookup(GROUPING_3_PATH);
+        WsSubjectLookup subjectLookup = null;
+        WsGroupLookup groupLookup = null;
 
         WsGroupDeleteResults results = gfsl.deleteGroup(subjectLookup, groupLookup);
 
-        assertTrue(results.getResultMetadata().getResultCode().startsWith("SUCCESS"));
+        assertTrue(results.getResultMetadata().getResultCode() ==  null);
     }
 
     @Test
@@ -251,15 +250,15 @@ public class GrouperFactoryServiceTest {
         assertTrue(results.getResultMetadata().getResultCode().startsWith("SUCCESS"));
     }
 
-    @Ignore
+
     @Test
-    //These tests are calls to grouper web service functions within grouper and do not work on local test enviornment.
+    //These tests are calls to grouper web service functions within grouper and do not work on local test environment.
     public void deleteStemTest(){
         WsSubjectLookup adminLookup = gfsl.makeWsSubjectLookup(ADMIN);
         WsStemLookup stem = gfsl.makeWsStemLookup("testStem");
 
         WsStemDeleteResults result = gfsl.deleteStem(adminLookup, stem);
-        System.out.print(result);
+        assertTrue(result.getResultMetadata().getResultCode() ==  null);
     }
 
     @Test
@@ -291,6 +290,17 @@ public class GrouperFactoryServiceTest {
     @Test
     public void makeWsDeleteMemberResultsTest() {
         WsDeleteMemberResults results;
+
+        results = gfsl.makeWsDeleteMemberResults(GROUPING_3_PATH, users.get(5).getUsername());
+        assertTrue(results.getResultMetadata().getResultCode().startsWith("SUCCESS"));
+
+
+        WsSubjectLookup lookup = gfsl.makeWsSubjectLookup(users.get(0).getUsername());
+        results = gfsl.makeWsDeleteMemberResults(GROUPING_3_PATH, lookup, users.get(0));
+        assertTrue(results.getResultMetadata().getResultCode().startsWith("SUCCESS"));
+
+        results = gfsl.makeWsDeleteMemberResults(GROUPING_3_PATH, users.get(5).getUsername());
+        assertTrue(results.getResultMetadata().getResultCode().startsWith("SUCCESS"));
 
         results = gfsl.makeWsDeleteMemberResults(GROUPING_3_PATH, users.get(5).getUsername());
         assertTrue(results.getResultMetadata().getResultCode().startsWith("SUCCESS"));
@@ -558,22 +568,18 @@ public class GrouperFactoryServiceTest {
     public void toStringTest() {
         String str = gfsl.toString();
         assertTrue(str.equals("GrouperFactoryServiceImplLocal [SETTINGS=" + SETTINGS + "]"));
-        //GrouperFactoryServiceImplLocal [SETTINGS=" + SETTINGS + "]
     }
 
-    @Ignore
+
     @Test
-    //These tests are calls to grouper web service functions within grouper and do not work on local test enviornment.
+    //These tests are calls to grouper web service functions within grouper and do not work on local test environment.
     public void addCompositeGroupTest() {
         //Not an actual test, addCompositeGroup is not implemented in GroupingFactoryServiceImpl.java
-        //todo Build when main method is complete
-        try {
-            assertNull(
-                    gfsl.addCompositeGroup(users.get(0).getUsername(), GROUPING_3_PATH, "type", GROUPING_3_BASIS_PATH,
-                            GROUPING_3_INCLUDE_PATH));
-        } catch (NullPointerException npe) {
-            npe.printStackTrace();
-        }
+
+        WsGroupSaveResults result =
+                gfsl.addCompositeGroup(users.get(0).getUsername(), GROUPING_3_PATH, "type"
+                        , GROUPING_3_BASIS_PATH, GROUPING_3_INCLUDE_PATH);
+        assertTrue(result.getResultMetadata().getResultCode() == null);
 
     }
 
