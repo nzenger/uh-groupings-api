@@ -1346,30 +1346,6 @@ public class GrouperFactoryServiceImplLocal implements GrouperFactoryService {
     @Override
     public WsGroupSaveResults addCompositeGroup(String username, String parentGroupPath, String compositeType,
             String leftGroupPath, String rightGroupPath) {
-        /*WsGroupToSave groupToSave = new WsGroupToSave();
-        WsGroupLookup groupLookup = makeWsGroupLookup(parentGroupPath);
-        WsGroup group = new WsGroup();
-        WsGroupDetail wsGroupDetail = new WsGroupDetail();
-
-        //get the left and right groups from the database/grouper
-        WsGroup leftGroup = makeWsFindGroupsResults(leftGroupPath).getGroupResults()[0];
-        WsGroup rightGroup = makeWsFindGroupsResults(rightGroupPath).getGroupResults()[0];
-
-        wsGroupDetail.setCompositeType(compositeType);
-        wsGroupDetail.setHasComposite("true");
-        wsGroupDetail.setLeftGroup(leftGroup);
-        wsGroupDetail.setRightGroup(rightGroup);
-
-        group.setName(parentGroupPath);
-        groupToSave.setWsGroup(group);
-        groupToSave.setWsGroupLookup(groupLookup);
-        group.setDetail(wsGroupDetail);
-
-
-        WsSubjectLookup lookup = makeWsSubjectLookup(username);
-
-        return new GcGroupSave().addGroupToSave(groupToSave).assignActAsSubject(lookup).execute();*/
-
         return new WsGroupSaveResults();
     }
 
