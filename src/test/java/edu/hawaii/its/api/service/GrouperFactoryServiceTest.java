@@ -8,6 +8,8 @@ import edu.hawaii.its.api.repository.PersonRepository;
 import edu.hawaii.its.api.type.Group;
 import edu.hawaii.its.api.type.Person;
 import edu.hawaii.its.api.type.SyncDestination;
+
+import edu.internet2.middleware.grouperClient.ws.StemScope;
 import edu.internet2.middleware.grouperClient.ws.beans.WsAddMemberResults;
 import edu.internet2.middleware.grouperClient.ws.beans.WsAssignAttributesResults;
 import edu.internet2.middleware.grouperClient.ws.beans.WsAssignGrouperPrivilegesLiteResult;
@@ -17,6 +19,8 @@ import edu.internet2.middleware.grouperClient.ws.beans.WsDeleteMemberResults;
 import edu.internet2.middleware.grouperClient.ws.beans.WsFindGroupsResults;
 import edu.internet2.middleware.grouperClient.ws.beans.WsGetAttributeAssignmentsResults;
 import edu.internet2.middleware.grouperClient.ws.beans.WsGetGrouperPrivilegesLiteResult;
+import edu.internet2.middleware.grouperClient.ws.beans.WsGetGroupsResults;
+import edu.internet2.middleware.grouperClient.ws.beans.WsGetMembersResults;
 import edu.internet2.middleware.grouperClient.ws.beans.WsGetMembershipsResults;
 import edu.internet2.middleware.grouperClient.ws.beans.WsGroupDeleteResults;
 import edu.internet2.middleware.grouperClient.ws.beans.WsGroupLookup;
@@ -602,6 +606,38 @@ public class GrouperFactoryServiceTest {
                 gfsl.addCompositeGroup(users.get(0).getUsername(), GROUPING_3_PATH, "type"
                         , GROUPING_3_BASIS_PATH, GROUPING_3_INCLUDE_PATH);
         assertTrue(result.getResultMetadata().getResultCode() == null);
+
+    }
+
+    @Test
+    public void makeWsGetMembersResultsTest(){
+        String subjectAttributeName = null;
+        WsSubjectLookup lookup = null;
+        List<String> groupPaths = new ArrayList<>();
+        groupPaths.add(GROUPING_0_PATH);
+        groupPaths.add(GROUPING_1_PATH);
+        groupPaths.add(GROUPING_2_PATH);
+        groupPaths.add(GROUPING_3_PATH);
+        groupPaths.add(GROUPING_4_PATH);
+        Integer pageNumber = null;
+        Integer pageSize = null;
+        String sortString = null;
+        Boolean isAscending = null;
+
+        WsGetMembersResults result = gfsl.makeWsGetMembersResults(subjectAttributeName, lookup, groupPaths, pageNumber, pageSize, sortString, isAscending);
+        assertTrue(result != null);
+
+    }
+
+    @Test
+    public void makeWsGetGroupsResultsTest(){
+        String username = users.get(0).getUsername();
+        WsStemLookup stemLookup = gfsl.makeWsStemLookup("pre");
+        StemScope stemScope = null;
+
+        WsGetGroupsResults result = gfsl.makeWsGetGroupsResults(username,stemLookup,stemScope);
+        assertTrue(result != null);
+
 
     }
 
