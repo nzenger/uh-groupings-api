@@ -569,7 +569,19 @@ public class GrouperFactoryServiceTest {
     }
     @Test
     public void makeWsGetMembershipsResultsTest() {
-        WsGetMembershipsResults result = grouperFS.makeWsGetMembershipsResults(GROUPING_0_PATH, gfsl.makeWsSubjectLookup(users.get(0).getUsername()));
+        String groupName = GROUPING_0_PATH;
+        WsSubjectLookup lookup = gfsl.makeWsSubjectLookup(users.get(0).getUsername());
+        WsGetMembershipsResults result = grouperFS.makeWsGetMembershipsResults(groupName, lookup);
+        assertTrue(result != null);
+
+        groupName = GROUPING_1_PATH;
+        lookup = gfsl.makeWsSubjectLookup(users.get(1).getUsername());
+        result = grouperFS.makeWsGetMembershipsResults(groupName, lookup);
+        assertTrue(result != null);
+
+        groupName = GROUPING_2_PATH;
+        lookup = gfsl.makeWsSubjectLookup(users.get(2).getUsername());
+        result = grouperFS.makeWsGetMembershipsResults(groupName, lookup);
         assertTrue(result != null);
     }
 
