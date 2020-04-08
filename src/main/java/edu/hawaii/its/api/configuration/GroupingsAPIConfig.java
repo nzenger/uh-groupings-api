@@ -10,6 +10,47 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class GroupingsAPIConfig {
 
+    //GroupingAssignmentServiceTest
+    @NotNull
+    private String UHUUID_KEY = "${groupings.api.person_attributes.uhuuid}";
+    @NotNull
+    private String UID_KEY = "${groupings.api.person_attributes.username}";
+    @NotNull
+    private String FIRST_NAME_KEY = "${groupings.api.person_attributes.first_name}";
+    @NotNull
+    private String LAST_NAME_KEY = "${groupings.api.person_attributes.last_name}";
+    @NotNull
+    private String COMPOSITE_NAME_KEY = "${groupings.api.person_attributes.composite_name}";
+
+    public String getUHUUID_KEY(){ return UHUUID_KEY; }
+
+    public void setUHUUID_KEY(String newVal){ this.UHUUID_KEY = newVal; }
+
+    public String getUID_KEY(){ return UID_KEY; }
+
+    public void setUID_KEY(String newVal){ this.UID_KEY = newVal; }
+
+    public String getFIRST_NAME_KEY(){ return FIRST_NAME_KEY; }
+
+    public void setFIRST_NAME_KEY(String newVal){ this.FIRST_NAME_KEY = newVal; }
+
+    public String getLAST_NAME_KEY(){ return LAST_NAME_KEY; }
+
+    public void setLAST_NAME_KEY(String newVal){ this.LAST_NAME_KEY = newVal; }
+
+    public String getCOMPOSITE_NAME_KEY(){ return COMPOSITE_NAME_KEY; }
+
+    public void setCOMPOSITE_NAME_KEY(String newVal){ this.COMPOSITE_NAME_KEY = newVal; }
+
+
+    //GroupingAssignmentServiceImpl
+    @NotNull
+    private String STALE_SUBJECT_ID = "${groupings.api.stale_subject_id}";
+
+    public String getSTALE_SUBJECT_ID(){ return STALE_SUBJECT_ID; }
+
+    public void setSTALE_SUBJECT_ID(String newVal){ this.STALE_SUBJECT_ID = newVal; }
+
     //MemberAttributeServiceImpl
     @NotNull
     private String SETTINGS = "${groupings.api.settings}";
@@ -239,10 +280,6 @@ public class GroupingsAPIConfig {
     public String getINSUFFICIENT_PRIVILEGES(){ return INSUFFICIENT_PRIVILEGES; }
 
     public void setINSUFFICIENT_PRIVILEGES(String newVal){ this.INSUFFICIENT_PRIVILEGES = newVal; }
-
-
-
-
 
     //DatabaseSetupServiceImpl
     @NotNull

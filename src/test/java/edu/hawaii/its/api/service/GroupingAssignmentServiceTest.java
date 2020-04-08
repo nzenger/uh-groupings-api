@@ -1,5 +1,6 @@
 package edu.hawaii.its.api.service;
 
+import edu.hawaii.its.api.configuration.GroupingsAPIConfig;
 import edu.hawaii.its.api.configuration.SpringBootWebApplication;
 import edu.hawaii.its.api.repository.GroupRepository;
 import edu.hawaii.its.api.repository.GroupingRepository;
@@ -46,42 +47,6 @@ import static org.junit.Assert.*;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class GroupingAssignmentServiceTest {
 
-  @Value("${groupings.api.grouping_admins}")
-  private String GROUPING_ADMINS;
-
-  @Value("${groupings.api.grouping_apps}")
-  private String GROUPING_APPS;
-
-  @Value("${groupings.api.test.username}")
-  private String USERNAME;
-
-  @Value("${groupings.api.test.name}")
-  private String NAME;
-
-  @Value("${groupings.api.test.uhuuid}")
-  private String UHUUID;
-
-  @Value("${groupings.api.person_attributes.uhuuid}")
-  private String UHUUID_KEY;
-
-  @Value("${groupings.api.person_attributes.username}")
-  private String UID_KEY;
-
-  @Value("${groupings.api.person_attributes.first_name}")
-  private String FIRST_NAME_KEY;
-
-  @Value("${groupings.api.person_attributes.last_name}")
-  private String LAST_NAME_KEY;
-
-  @Value("${groupings.api.person_attributes.composite_name}")
-  private String COMPOSITE_NAME_KEY;
-
-  @Value("${groupings.api.insufficient_privileges}")
-  private String INSUFFICIENT_PRIVILEGES;
-
-  @Value("${groupings.api.stale_subject_id}")
-  private String STALE_SUBJECT_ID;
-
   private static final String PATH_ROOT = "path:to:grouping";
 
   private static final String BASIS = ":basis";
@@ -103,6 +68,9 @@ public class GroupingAssignmentServiceTest {
 
   private List<Person> users = new ArrayList<>();
   private List<WsSubjectLookup> lookups = new ArrayList<>();
+
+  @Autowired
+  private GroupingsAPIConfig config;
 
   @Autowired
   private GroupingRepository groupingRepository;
@@ -145,7 +113,7 @@ public class GroupingAssignmentServiceTest {
     try {
       groupingAssignmentService.getGrouping(GROUPING_0_PATH, users.get(1).getUsername());
     } catch (AccessDeniedException ade) {
-      assertThat(INSUFFICIENT_PRIVILEGES, is(ade.getMessage()));
+      assertThat(config.getINSUFFICIENT_PRIVILEGES(), is(ade.getMessage()));
     }
     Grouping groupingOwner = groupingAssignmentService.getGrouping(GROUPING_0_PATH, users.get(0).getUsername());
     Grouping groupingAdmin = groupingAssignmentService.getGrouping(GROUPING_0_PATH, ADMIN_USER);
@@ -175,7 +143,7 @@ public class GroupingAssignmentServiceTest {
           .getPaginatedGrouping(GROUPING_0_PATH, users.get(1).getUsername(), 1, 4, "name", true);
       fail("Shouldn't be here.");
     } catch (AccessDeniedException ade) {
-      assertThat(ade.getMessage(), equalTo(INSUFFICIENT_PRIVILEGES));
+      assertThat(ade.getMessage(), equalTo(config.getINSUFFICIENT_PRIVILEGES()));
     }
 
     Grouping groupingOwner = groupingAssignmentService
@@ -184,12 +152,6 @@ public class GroupingAssignmentServiceTest {
         .getPaginatedGrouping(GROUPING_0_PATH, ADMIN_USER, 1, 4, "name", false);
     Grouping groupingNull = groupingAssignmentService
         .getPaginatedGrouping(GROUPING_0_PATH, users.get(0).getUsername(), null, null, null, null);
-
-    //        assertThat(groupingRandom.getComposite().getMembers().size(), equalTo(0));
-    //        assertThat(groupingRandom.getBasis().getMembers().size(), equalTo(0));
-    //        assertThat(groupingRandom.getInclude().getMembers().size(), equalTo(0));
-    //        assertThat(groupingRandom.getExclude().getMembers().size(), equalTo(0));
-    //        assertThat(groupingRandom.getOwners().getMembers().size(), equalTo(0));
 
     assertTrue(groupingOwner.getComposite().getNames().contains(users.get(0).getName()));
     assertTrue(groupingOwner.getComposite().getUsernames().contains(users.get(0).getUsername()));
@@ -376,7 +338,7 @@ public class GroupingAssignmentServiceTest {
     try {
       groupingAssignmentService.adminLists(users.get(1).getUsername());
     } catch (AccessDeniedException ade) {
-      assertThat(INSUFFICIENT_PRIVILEGES, is(ade.getMessage()));
+      assertThat(config.getINSUFFICIENT_PRIVILEGES(), is(ade.getMessage()));
     }
   }
 
@@ -471,7 +433,7 @@ public class GroupingAssignmentServiceTest {
   public void makeGroupsTest() {
 
     WsGetMembersResults getMembersResults = new WsGetMembersResults();
-    String[] attributeNames = new String[] { UID_KEY, UHUUID_KEY, LAST_NAME_KEY, COMPOSITE_NAME_KEY, FIRST_NAME_KEY };
+    String[] attributeNames = new String[] { config.getUID_KEY(), config.getUHUUID_KEY(), config.getLAST_NAME_KEY(), config.getCOMPOSITE_NAME_KEY(), config.getFIRST_NAME_KEY() };
 
     // We create an array here because getMembersResults.setResults() only takes an array
     WsGetMembersResult[] getMembersResult = new WsGetMembersResult[1];
@@ -517,7 +479,7 @@ public class GroupingAssignmentServiceTest {
     String id = "uuid";
     String identifier = "username";
     String[] attributeNames =
-        new String[] { UID_KEY, UHUUID_KEY, LAST_NAME_KEY, COMPOSITE_NAME_KEY, FIRST_NAME_KEY };
+        new String[] { config.getUID_KEY(), config.getUHUUID_KEY(), config.getLAST_NAME_KEY(), config.getCOMPOSITE_NAME_KEY(), config.getFIRST_NAME_KEY() };
     String[] attributeValues = new String[] { identifier, id, null, name, null };
 
     WsSubject subject = new WsSubject();
@@ -546,7 +508,7 @@ public class GroupingAssignmentServiceTest {
 
     WsGetMembersResults getMembersResults = new WsGetMembersResults();
     String[] attributeNames =
-        new String[] { UID_KEY, UHUUID_KEY, LAST_NAME_KEY, COMPOSITE_NAME_KEY, FIRST_NAME_KEY };
+        new String[] { config.getUID_KEY(), config.getUHUUID_KEY(), config.getLAST_NAME_KEY(), config.getCOMPOSITE_NAME_KEY(), config.getFIRST_NAME_KEY() };
 
     // We create an array here because getMembersResults.setResults() only takes an array
     // nullSubject... will have a null Subject Array while testSubject... will have 2 subjects with test attributes
@@ -568,7 +530,7 @@ public class GroupingAssignmentServiceTest {
     list[1].setName("iDontExistAnymoreName");
     list[1].setId("iDontExistAnymoreUHUUID");
     list[1].setAttributeValues(new String[] { "iDontExistAnymoreUsername", "", "", "iDontExistAnymoreName", "" });
-    list[1].setSourceId(STALE_SUBJECT_ID);
+    list[1].setSourceId(config.getSTALE_SUBJECT_ID());
 
     // Push to array and set results
     nullSubjectArrayGetMembersResult.setWsSubjects(null);
