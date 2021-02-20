@@ -1,0 +1,1 @@
+org.springframework.boot.diagnostics.FailureAnalyzer=edu.hawaii.its.api.configuration.FailedAnalyzer
